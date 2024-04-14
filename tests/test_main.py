@@ -27,6 +27,7 @@ def test_write_main():
 
         client:TestClient = TestClient(app=todo_server)
 
+        todo = Todo(title="test todo", description="my test todo")
         todo_title = "Buy bread"
         todo_description = "Please buy bread"
 
