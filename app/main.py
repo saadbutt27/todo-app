@@ -14,7 +14,7 @@ class Todo(SQLModel, table=True):
 connection_string: str = str(settings.DATABASE_URL).replace(
     "postgresql", "postgresql+psycopg"
 )
-engine = create_engine(connection_string)
+engine = create_engine(connection_string,  connect_args={"sslmode": "require"}, pool_recycle=300)
 
 def create_db_tables():
     print("creating tables")
@@ -55,3 +55,9 @@ def get_all_todos(session:Annotated[Session, Depends(get_session)]):
         query = select(Todo)
         all_todos = session.exec(query).all()
         return all_todos
+
+# @todo_server.get("/todos/{todo_id}")
+# def get_todo(todo_id:int, session:Annotated[Session, Depends(get_session)]):
+#         query = select(Todo).filter(todo_id)
+#         all_todos = session.exec(query).all()
+#         return all_todos
